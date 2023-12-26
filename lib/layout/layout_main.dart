@@ -14,6 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: '',
+      /// dark 테마
       darkTheme: ThemeData(
           brightness: Brightness.dark,
           elevatedButtonTheme: ElevatedButtonThemeData(
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
                 MaterialStateProperty.resolveWith((states) => Colors.indigo),
               ))),
       themeMode: ThemeMode.dark,
+      ///
       home: const MainScreen(),
     );
   }

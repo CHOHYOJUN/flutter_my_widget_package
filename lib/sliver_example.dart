@@ -58,7 +58,7 @@ class MySliver extends StatelessWidget {
   // SliverGrid를 생성하는 함수
   Widget buildSliverGrid() {
     return SliverGrid(
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,  // 격자의 열 개수 (2열)
       ),
       delegate: SliverChildBuilderDelegate(

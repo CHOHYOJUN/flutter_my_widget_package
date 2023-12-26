@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:intl/intl.dart';
+
+import '../slider/default_carousel_slider.dart';
+
+import '../title/title_widget.dart';
 
 class DefaultBody extends StatefulWidget {
   const DefaultBody({Key? key}) : super(key: key);
@@ -10,6 +13,11 @@ class DefaultBody extends StatefulWidget {
 }
 
 class _DefaultBodyState extends State<DefaultBody> {
+  // 메인 이미지
+  final topImageUrl =
+      'https://img.freepik.com/premium-vector/realistic-christmas-background_52683-74895.jpg';
+
+  // 슬라이더 용
   final List<String> imageUrls = [
     'https://yimgf-thinkzon.yesform.com/docimgs/public/1/65/64314/64313637.jpg',
     'https://www.e-patentnews.com/imgdata/e-patentnews_com/202209/2022090300016624.jpg',
@@ -21,14 +29,19 @@ class _DefaultBodyState extends State<DefaultBody> {
     return Container(
       child: ListView(
         children: [
-          // 이미지 url로 width 채우는 위젯
-          paddingTitleWidget(top: 10, text: '메인이미지', fontSize: 20),
-          defaultImageWidget(),
-          // 슬라이더 [1]
-          paddingTitleWidget(top: 10, text: '슬라이더 리스트'),
-          defaultCarouselSlider(),
-          // 카드 리스트
-          paddingTitleWidget(top: 10, text: '카드 리스트', color: Colors.amberAccent),
+
+          /// 이미지 url로 width 채우는 위젯
+
+          const TitleWidget(top: 10, text: '메인이미지', fontSize: 30, color: Colors.amberAccent),
+          defaultImageWidget(url: topImageUrl),
+
+          /// 슬라이더 [1]
+          const TitleWidget(top: 10, text: '슬라이더 리스트'),
+          DefaultCarouselSlider(imageUrls: imageUrls,),
+
+          /// 카드 리스트
+          const TitleWidget(top: 10, text: '카드 리스트', color: Colors.amberAccent),
+
           cardListWidget(),
           cardListWidget(),
         ],
@@ -36,49 +49,12 @@ class _DefaultBodyState extends State<DefaultBody> {
     );
   }
 
-  // defaultCarouselSlider() 예제
-  Widget defaultCarouselSlider() {
-    return CarouselSlider(
-      options: CarouselOptions(
-        height: 200.0,
-        // 슬라이더의 높이 설정
-        autoPlay: true,
-        // 자동 재생 여부 설정
-        enlargeCenterPage: true,
-        // 활성화된 아이템 크기 확대 여부 설정
-        aspectRatio: 16 / 9,
-        // 슬라이더의 가로 세로 비율 설정
-        autoPlayCurve: Curves.fastOutSlowIn,
-        // 자동 재생 애니메이션 커브 설정
-        enableInfiniteScroll: true,
-        // 무한 스크롤 여부 설정
-        autoPlayAnimationDuration: const Duration(milliseconds: 800),
-        // 자동 재생 애니메이션 지속 시간 설정
-        viewportFraction: 0.8, // 화면에 보여지는 아이템의 비율 설정
-      ),
-      items: imageUrls.map((url) {
-        return Container(
-          margin: const EdgeInsets.all(5.0), // 아이템 간의 여백 설정
-          child: ClipRRect(
-            borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-            // 아이템의 모서리를 둥글게 설정
-            child: Image.network(
-              url,
-              fit: BoxFit.cover, // 이미지를 뷰포트에 맞게 조정
-              width: 1000.0, // 이미지의 가로 크기 설정
-            ),
-          ),
-        );
-      }).toList(),
-    );
-  } // defaultCarouselSlider() - end
-
   /// 이미지 url로 width 채우는 위젯
-  Widget defaultImageWidget() {
+  Widget defaultImageWidget({required url}) {
     return Container(
       margin: const EdgeInsets.all(10.0), // 위젯의 여백 설정
       child: Image.network(
-        'https://img.freepik.com/premium-vector/realistic-christmas-background_52683-74895.jpg',
+        url,
         // 이미지 URL 설정
         fit: BoxFit.fill, // 이미지를 가로 크기에 맞게 채웁니다
       ),
@@ -92,7 +68,8 @@ class _DefaultBodyState extends State<DefaultBody> {
       color: Colors.grey, // 배경색을 원하는 색상으로 설정하세요
       child: Row(
         children: [
-          /// 첫 번째 컬럼: 아바타 이미지
+
+          /// 첫 번째 컬럼: [아바타] 이미지
           Expanded(
             flex: 1,
             child: Container(
@@ -105,6 +82,8 @@ class _DefaultBodyState extends State<DefaultBody> {
               ),
             ),
           ),
+
+          /// 두번째 칼럼: [타이틀,서브젝트]
           Expanded(
             flex: 2,
             child: Container(
@@ -125,13 +104,15 @@ class _DefaultBodyState extends State<DefaultBody> {
                     '서브젝트', // 서브젝트 문자열
                     style: TextStyle(
                       fontSize: 14.0,
-                      color: Colors.grey, // 서브젝트 텍스트의 색상 (파란색)
+                      color: Colors.black, // 서브젝트 텍스트의 색상 (파란색)
                     ),
                   ),
                 ],
               ),
             ),
           ),
+
+          /// [날짜,시간]
           Expanded(
             flex: 1,
             child: Container(
@@ -151,35 +132,33 @@ class _DefaultBodyState extends State<DefaultBody> {
     );
   }
 
+/// 타이틀 위젯
+/// 필수: [텍스트] , 옵션: [패딩 값],[폰트 사이즈],[폰트 컬러]
+//   Widget paddingTitleWidget({
+//     double? left,
+//     double? top,
+//     double? right,
+//     double? bottom,
+//     double? fontSize,
+//     MaterialAccentColor? color,
+//     required String text,
+//   }) {
+//     final EdgeInsetsGeometry padding = EdgeInsets.only(
+//       left: left ?? 12,
+//       top: top ?? 0,
+//       right: right ?? 0,
+//       bottom: bottom ?? 0,
+//     );
+//
+//     return Padding(
+//       padding: padding,
+//       child: Text(
+//         text,
+//         style:
+//             TextStyle(fontSize: fontSize ?? 14.0, color: color ?? Colors.white),
+//       ),
+//     );
+//   }
+// }
 
-  /// 타이틀 위젯
-  /// 패딩 값과, 폰트 사이즈까지 입력
-  /// TODO 1 : 컬러까지 받아야 겠다.
-  Widget paddingTitleWidget({
-    double? left,
-    double? top,
-    double? right,
-    double? bottom,
-    double? fontSize,
-    MaterialAccentColor? color,
-    required String text,
-  }) {
-    final EdgeInsetsGeometry padding = EdgeInsets.only(
-      left: left ?? 12,
-      top: top ?? 0,
-      right: right ?? 0,
-      bottom: bottom ?? 0,
-    );
-
-    return Padding(
-      padding: padding,
-      child: Text(
-        text,
-        style: TextStyle(
-          fontSize: fontSize ?? 14.0,
-          color: color ?? Colors.white
-        ),
-      ),
-    );
-  }
 }

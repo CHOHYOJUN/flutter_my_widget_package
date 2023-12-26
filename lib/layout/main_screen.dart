@@ -25,14 +25,14 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       /// [ appBar ] ↓↓↓↓↓
-      appBar: DefaultAppBar(key: UniqueKey()), // Key 추가
+      appBar: DefaultAppBar(key: UniqueKey(),), // Key 추가
       /// [ body ] ↓↓↓↓↓
       body: DefaultBody(key: UniqueKey()), // Key 추가
       /// [ bottom ] ↓↓↓↓↓
       bottomNavigationBar: DefaultBottomBar(
         key: UniqueKey(), // Key 추가
-        selectedIndex: _selectedIndex,
-        onItemTapped: _onItemTapped,
+        selectedIndex: _selectedIndex, // 현재 선택된 인덱스
+        onItemTapped: _onItemTapped, // 아이템이 탭되었을 때 호출되는 메서드
       ),
       /// [ floating btn ] ↓↓↓↓↓
       floatingActionButton: DefaultFloatingButton(

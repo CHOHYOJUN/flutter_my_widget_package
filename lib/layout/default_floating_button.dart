@@ -12,7 +12,7 @@ class DefaultFloatingButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return FloatingActionButton(
       onPressed: onPressed,
-      child: Icon(Icons.add),
+      child: const Icon(Icons.add),
     );
   }
 }
